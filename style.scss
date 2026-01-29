@@ -1,0 +1,11 @@
+@import "node_modules/dracula-ui/styles/dracula-ui.css";
+$background: var(--black);
+
+body {
+  background: $background;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,62 @@
+[package]
+name = "qrdecoder"
+version = "0.1.0"
+authors = ["Maksym Schipka <maksym@schipka.work>"]
+edition = "2018"
+description = "QR code decoder"
+license = "MIT"
+
+[features]
+default = ["wee_alloc"]
+
+[profile.release]
+opt-level = "z"          # Optimize for size
+lto = true               # Enable Link-Time Optimization
+codegen-units = 1        # Better optimization at cost of compile time
+panic = "abort"          # Smaller panic handling
+strip = true             # Strip symbols
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-Oz"]       # Enable wasm-opt with size optimization
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+log = "0.4"
+wasm-bindgen = "0.2.82"
+wasm-logger = "0.2"
+wee_alloc = { version = "0.4.5", optional = true }
+yew = { git = "https://github.com/yewstack/yew/", features = ["csr"] }
+yew-hooks = { git="https://github.com/jetli/yew-hooks.git" }
+rqrr = "0.10"
+gloo = { version = "0.11", features = ["file"] }
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+
+[dependencies.image]
+version = "0.25"
+default-features = false
+features = ["png", "jpeg"]
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
+
+[dependencies.web-sys]
+version = "0.3.59"
+features = [
+  'KeyboardEvent',
+  'File',
+  'FileList',
+  'FileReader',
+  'Blob',
+  'HtmlInputElement',
+  'DataTransfer',
+  'DragEvent',
+  'ClipboardEvent',
+  'DataTransferItemList',
+  'DataTransferItem',
+  'Document',
+  'Window',
+  'EventTarget',
+]
