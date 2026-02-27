@@ -168,45 +168,27 @@ impl Component for QrDecoder {
             Msg::Files(files)
         });
 
-        let drop_style = if self.is_over {
-            "border: 3px dashed #bd93f9; background-color: #44475a; padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.2s ease;"
+        let drop_class = if self.is_over {
+            "drop-zone drag-over"
         } else {
-            "border: 3px dashed #6272a4; background-color: #282a36; padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.2s ease;"
+            "drop-zone"
         };
 
-        let on_back = Callback::from(|_: MouseEvent| {
-            if let Some(window) = web_sys::window() {
-                let _ = window.history().unwrap().back();
-            }
-        });
-
         html! {
-            <div class="drac-box" style="max-width: 600px; margin: 40px auto; padding: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <button class="drac-btn drac-bg-purple" onclick={on_back}>
-                        {"\u{2190} Back"}
-                    </button>
-                    <a class="drac-btn drac-bg-purple" href="https://schipka.com" style="text-decoration: none;">
-                        {"Home"}
-                    </a>
-                </div>
-                <h1 class="drac-heading drac-heading-xl drac-text-white" style="text-align: center; margin-bottom: 30px;">
-                    {"QR Code Decoder"}
-                </h1>
-
+            <>
                 <div
-                    style={drop_style}
+                    class={drop_class}
                     ondragover={on_drag_over}
                     ondragleave={on_drag_leave}
                     ondrop={on_drop}
                 >
-                    <p class="drac-text drac-text-white" style="font-size: 1.2em; margin-bottom: 20px;">
+                    <p class="drop-text">
                         {"Drop or paste QR image here"}
                     </p>
-                    <p class="drac-text drac-text-grey" style="margin-bottom: 20px;">
+                    <p class="drop-hint">
                         {"or"}
                     </p>
-                    <label class="drac-btn drac-bg-purple" style="cursor: pointer;">
+                    <label class="btn">
                         {"Choose File"}
                         <input
                             type="file"
@@ -215,13 +197,13 @@ impl Component for QrDecoder {
                             style="display: none;"
                         />
                     </label>
-                    <p class="drac-text drac-text-grey" style="margin-top: 20px; font-size: 0.9em;">
+                    <p class="drop-tip">
                         {"Tip: Press Ctrl+V to paste from clipboard"}
                     </p>
                 </div>
 
                 {self.view_result()}
-            </div>
+            </>
         }
     }
 
@@ -239,21 +221,21 @@ impl QrDecoder {
     fn view_result(&self) -> Html {
         match &self.result {
             Some(Ok(content)) => html! {
-                <div class="drac-box drac-bg-green-transparent" style="margin-top: 20px; padding: 20px; border-radius: 8px;">
-                    <p class="drac-text drac-text-green" style="font-weight: bold; margin-bottom: 10px;">
+                <div class="result success">
+                    <p class="result-label">
                         {"Decoded Content:"}
                     </p>
-                    <p class="drac-text drac-text-white" style="word-break: break-all; font-family: monospace;">
+                    <p class="result-content">
                         {content}
                     </p>
                 </div>
             },
             Some(Err(error)) => html! {
-                <div class="drac-box drac-bg-red-transparent" style="margin-top: 20px; padding: 20px; border-radius: 8px;">
-                    <p class="drac-text drac-text-red" style="font-weight: bold; margin-bottom: 10px;">
+                <div class="result error">
+                    <p class="result-label">
                         {"Error:"}
                     </p>
-                    <p class="drac-text drac-text-white">
+                    <p>
                         {error}
                     </p>
                 </div>

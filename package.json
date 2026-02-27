@@ -17,8 +17,5 @@
     "webpack": "^5.90.0",
     "webpack-cli": "^5.1.0",
     "webpack-dev-server": "^5.0.0"
-  },
-  "dependencies": {
-    "dracula-ui": "^1.0.0"
   }
 }
