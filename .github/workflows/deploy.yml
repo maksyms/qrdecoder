@@ -18,17 +18,11 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
+      - name: Install just
+        uses: extractions/setup-just@v2
 
       - name: Build
-        run: npm run build
+        run: just build
 
       - name: Install rclone
         run: |

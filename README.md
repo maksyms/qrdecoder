@@ -8,22 +8,22 @@ A web application built with Rust and WebAssembly that decodes QR codes. Support
 
 ### Build
 
-Install dependencies (first time):
-
-```
-npm install
-```
-
 Build for production:
 
 ```
-npm run build
+just build
+```
+
+Development build:
+
+```
+just dev
 ```
 
 ### Serve locally
 
 ```
-npm run dev
+python3 -m http.server 8000 -d dist
 ```
 
 Opens at http://localhost:8000
@@ -33,4 +33,3 @@ Opens at http://localhost:8000
 - [Yew](https://yew.rs/) - Rust framework for building web apps with WebAssembly
 - [rqrr](https://github.com/WanzenBug/rqrr) - Pure Rust QR code decoder
 - [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen) - Rust/JavaScript interop
-- [Dracula UI](https://draculatheme.com/ui) - Dark theme CSS framework

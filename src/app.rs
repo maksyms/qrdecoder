@@ -1,8 +1,17 @@
-use gloo::file::{callbacks::FileReader, Blob, File};
+use gloo_file::{callbacks::FileReader, Blob, File};
 use std::collections::HashMap;
 use wasm_bindgen::{closure::Closure, JsCast};
 use web_sys::{DataTransfer, DragEvent, Event, HtmlInputElement};
 use yew::prelude::*;
+
+// Dracula theme colors
+const WHITE: &str = "#f8f8f2";
+const GREY: &str = "#6272a4";
+const GREEN: &str = "#50fa7b";
+const RED: &str = "#ff5555";
+const PURPLE: &str = "#bd93f9";
+const BG_DARK: &str = "#282a36";
+const BG_SURFACE: &str = "#44475a";
 
 pub struct QrDecoder {
     readers: HashMap<String, FileReader>,
@@ -94,7 +103,7 @@ impl Component for QrDecoder {
                 for file in files {
                     let name = file.name();
                     let link = ctx.link().clone();
-                    let reader = gloo::file::callbacks::read_as_bytes(&file, move |res| {
+                    let reader = gloo_file::callbacks::read_as_bytes(&file, move |res| {
                         if let Ok(bytes) = res {
                             link.send_message(Msg::Loaded(name.clone(), bytes));
                         }
@@ -108,7 +117,7 @@ impl Component for QrDecoder {
                     let name = format!("clipboard_{}", i);
                     let link = ctx.link().clone();
                     let name_clone = name.clone();
-                    let reader = gloo::file::callbacks::read_as_bytes(&blob, move |res| {
+                    let reader = gloo_file::callbacks::read_as_bytes(&blob, move |res| {
                         if let Ok(bytes) = res {
                             link.send_message(Msg::Loaded(name_clone.clone(), bytes));
                         }
@@ -168,27 +177,36 @@ impl Component for QrDecoder {
             Msg::Files(files)
         });
 
-        let drop_class = if self.is_over {
-            "drop-zone drag-over"
+        let drop_zone_style = if self.is_over {
+            format!(
+                "border: 3px dashed {}; background-color: {}; padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.2s ease;",
+                PURPLE, BG_SURFACE
+            )
         } else {
-            "drop-zone"
+            format!(
+                "border: 3px dashed {}; background-color: {}; padding: 60px 40px; text-align: center; cursor: pointer; transition: all 0.2s ease;",
+                GREY, BG_DARK
+            )
         };
 
         html! {
             <>
                 <div
-                    class={drop_class}
+                    style={drop_zone_style}
                     ondragover={on_drag_over}
                     ondragleave={on_drag_leave}
                     ondrop={on_drop}
                 >
-                    <p class="drac-text drac-text-white" style="font-size: 1.2em; margin-bottom: 20px;">
+                    <p style={format!("color: {}; font-size: 1.2em; margin-bottom: 20px;", WHITE)}>
                         {"Drop or paste QR image here"}
                     </p>
-                    <p class="drac-text drac-text-grey" style="margin-bottom: 20px;">
+                    <p style={format!("color: {}; margin-bottom: 20px;", GREY)}>
                         {"or"}
                     </p>
-                    <label class="drac-btn drac-bg-purple" style="cursor: pointer;">
+                    <label style={format!(
+                        "background: {}; color: {}; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 1em;",
+                        PURPLE, BG_DARK
+                    )}>
                         {"Choose File"}
                         <input
                             type="file"
@@ -197,7 +215,7 @@ impl Component for QrDecoder {
                             style="display: none;"
                         />
                     </label>
-                    <p class="drac-text drac-text-grey" style="margin-top: 20px; font-size: 0.9em;">
+                    <p style={format!("color: {}; margin-top: 20px; font-size: 0.9em;", GREY)}>
                         {"Tip: Press Ctrl+V to paste from clipboard"}
                     </p>
                 </div>
@@ -221,21 +239,21 @@ impl QrDecoder {
     fn view_result(&self) -> Html {
         match &self.result {
             Some(Ok(content)) => html! {
-                <div class="drac-box drac-bg-green-transparent" style="margin-top: 20px; padding: 20px;">
-                    <p class="drac-text drac-text-green" style="font-weight: bold; margin-bottom: 10px;">
+                <div style="margin-top: 20px; padding: 20px; background: rgba(80,250,123,0.1); border-radius: 4px;">
+                    <p style={format!("color: {}; font-weight: bold; margin-bottom: 10px;", GREEN)}>
                         {"Decoded Content:"}
                     </p>
-                    <p class="drac-text drac-text-white" style="word-break: break-all;">
+                    <p style={format!("color: {}; word-break: break-all;", WHITE)}>
                         {content}
                     </p>
                 </div>
             },
             Some(Err(error)) => html! {
-                <div class="drac-box drac-bg-red-transparent" style="margin-top: 20px; padding: 20px;">
-                    <p class="drac-text drac-text-red" style="font-weight: bold; margin-bottom: 10px;">
+                <div style="margin-top: 20px; padding: 20px; background: rgba(255,85,85,0.1); border-radius: 4px;">
+                    <p style={format!("color: {}; font-weight: bold; margin-bottom: 10px;", RED)}>
                         {"Error:"}
                     </p>
-                    <p class="drac-text drac-text-red">
+                    <p style={format!("color: {};", RED)}>
                         {error}
                     </p>
                 </div>
