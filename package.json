@@ -6,10 +6,16 @@
     "build:dev": "webpack --mode development",
     "test": "wasm-pack test --chrome --firefox --safari --headless"
   },
+  "dependencies": {
+    "dracula-ui": "^1.0.0"
+  },
   "devDependencies": {
     "@wasm-tool/wasm-pack-plugin": "^1.7.0",
     "copy-webpack-plugin": "^12.0.0",
     "css-loader": "^7.0.0",
+    "postcss": "^8.4.0",
+    "postcss-loader": "^8.0.0",
+    "postcss-prefix-selector": "^2.1.0",
     "sass": "^1.77.0",
     "sass-loader": "^14.0.0",
     "style-loader": "^4.0.0",

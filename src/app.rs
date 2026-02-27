@@ -182,13 +182,13 @@ impl Component for QrDecoder {
                     ondragleave={on_drag_leave}
                     ondrop={on_drop}
                 >
-                    <p class="drop-text">
+                    <p class="drac-text drac-text-white" style="font-size: 1.2em; margin-bottom: 20px;">
                         {"Drop or paste QR image here"}
                     </p>
-                    <p class="drop-hint">
+                    <p class="drac-text drac-text-grey" style="margin-bottom: 20px;">
                         {"or"}
                     </p>
-                    <label class="btn">
+                    <label class="drac-btn drac-bg-purple" style="cursor: pointer;">
                         {"Choose File"}
                         <input
                             type="file"
@@ -197,7 +197,7 @@ impl Component for QrDecoder {
                             style="display: none;"
                         />
                     </label>
-                    <p class="drop-tip">
+                    <p class="drac-text drac-text-grey" style="margin-top: 20px; font-size: 0.9em;">
                         {"Tip: Press Ctrl+V to paste from clipboard"}
                     </p>
                 </div>
@@ -221,21 +221,21 @@ impl QrDecoder {
     fn view_result(&self) -> Html {
         match &self.result {
             Some(Ok(content)) => html! {
-                <div class="result success">
-                    <p class="result-label">
+                <div class="drac-box drac-bg-green-transparent" style="margin-top: 20px; padding: 20px;">
+                    <p class="drac-text drac-text-green" style="font-weight: bold; margin-bottom: 10px;">
                         {"Decoded Content:"}
                     </p>
-                    <p class="result-content">
+                    <p class="drac-text drac-text-white" style="word-break: break-all;">
                         {content}
                     </p>
                 </div>
             },
             Some(Err(error)) => html! {
-                <div class="result error">
-                    <p class="result-label">
+                <div class="drac-box drac-bg-red-transparent" style="margin-top: 20px; padding: 20px;">
+                    <p class="drac-text drac-text-red" style="font-weight: bold; margin-bottom: 10px;">
                         {"Error:"}
                     </p>
-                    <p>
+                    <p class="drac-text drac-text-red">
                         {error}
                     </p>
                 </div>

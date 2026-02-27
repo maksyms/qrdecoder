@@ -45,4 +45,4 @@ jobs:
           export RCLONE_CONFIG_FASTMAIL_PASS=$(rclone obscure "$FASTMAIL_PASS_PLAIN")
           FASTMAIL_PATH="${{ secrets.FASTMAIL_USER }}"
           FASTMAIL_PATH="${FASTMAIL_PATH/@/.}"
-          rclone sync dist/ "fastmail:${FASTMAIL_PATH}/files/schipka.com/qrdecoder/"
+          rclone sync dist/ "fastmail:${FASTMAIL_PATH}/files/schipka.com/apps/qrdecoder/"

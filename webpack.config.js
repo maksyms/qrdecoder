@@ -14,15 +14,25 @@ module.exports = (env, argv) => {
     output: {
       path: distPath,
       filename: "qrdecoder.js",
-      webassemblyModuleFilename: "qrdecoder.wasm"
+      webassemblyModuleFilename: "qrdecoder.wasm",
+      publicPath: 'auto'
     },
     module: {
       rules: [
+        {
+          test: /\.css$/i,
+          use: [
+            'style-loader',
+            'css-loader',
+            'postcss-loader',
+          ],
+        },
         {
           test: /\.s[ac]ss$/i,
           use: [
             'style-loader',
             'css-loader',
+            'postcss-loader',
             'sass-loader',
           ],
         },
